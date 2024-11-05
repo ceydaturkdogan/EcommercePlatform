@@ -42,7 +42,7 @@ namespace ECommercePlatform.Data.UnitOfWork
 
         public async Task<int> SaveChangesAsync()
         {
-            return await SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
     }
 }

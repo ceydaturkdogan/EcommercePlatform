@@ -21,7 +21,7 @@ namespace ECommercePlatform.Data.Repositories
 
         TEntity Get(Expression<Func<TEntity,bool>> predicate);
 
-
+        IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate = null);
 
     }
 }

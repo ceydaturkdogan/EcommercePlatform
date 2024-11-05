@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,13 @@ namespace ECommercePlatform.Data.Entities
 
         //Relational Property
         public ICollection<OrderEntity> Order { get; set; }
+    }
+
+    public class ProductConfiguration : BaseConfiguration<ProductEntity>
+    {
+        public override void Configure(EntityTypeBuilder<ProductEntity> builder)
+        {
+            base.Configure(builder);
+        }
     }
 }

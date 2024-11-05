@@ -18,35 +18,48 @@ namespace ECommercePlatform.Data.Repositories
         {
             _context = context;
             _entities =_context.Set<TEntity>();
+
         }
         public void Add(TEntity entity)
         {
-            throw new NotImplementedException();
+            entity.CreatedDate = DateTime.Now;
+            _entities.Add(entity);
+            //_entities.SaveChanges();
         }
 
         public void Delete(TEntity entity)
         {
-            throw new NotImplementedException();
+            entity.ModifiedDate = DateTime.Now;
+            entity.IsDeleted = true;
+            _entities.Update(entity);
+            //_entities.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var entity = _entities.Find(id);
+            Delete(entity);
         }
 
         public TEntity Get(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _entities.FirstOrDefault(predicate);
+        }
+        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> predicate = null)
+        {
+            return predicate is null ? _entities : _entities.Where(predicate);
         }
 
         public TEntity GetById(int id)
         {
-            throw new NotImplementedException();
+            return _entities.Find(id);
         }
 
         public void Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            entity.ModifiedDate = DateTime.Now;
+            _entities.Update(entity);
+            //_entities.SaveChanges();
         }
     }
 }

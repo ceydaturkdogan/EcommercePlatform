@@ -8,11 +8,10 @@ namespace ECommercePlatform.Data.UnitOfWork
 {
     public interface IUnitOfWork:IDisposable
     {
-        Task<int> SaveChangesAsync(); //Kaç kayda etki ettiğini geri döner, o yüzden int
+
+        Task<int> SaveChangesAsync(); 
 
         Task BeginTransactions();
-
-        //task asenkron metotların voididir.
 
         Task CommitTransactions();
 

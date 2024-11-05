@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ECommercePlatform.Data.Enums
 {
-    public enum Role
+    public enum UserType
     {
         Admin,
-        Client
+        Customer
     }
 }

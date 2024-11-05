@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,13 @@ namespace ECommercePlatform.Data.Entities
 
         public ICollection<ProductEntity> Products { get; set; }
     }
-
+    public class OrderProductConfiguration : BaseConfiguration<OrderProductEntity>
+    {
+        public override void Configure(EntityTypeBuilder<OrderProductEntity> builder)
+        {
+            builder.Ignore(x=>x.Id);//ignore base id 
+            builder.HasKey("OrderId", "ProductId");//Created composite key
+            base.Configure(builder);
+        }
+    }
 }
