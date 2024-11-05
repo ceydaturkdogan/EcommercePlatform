@@ -18,7 +18,7 @@ namespace ECommercePlatform.WebApi.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
             if (!ModelState.IsValid)
@@ -49,5 +49,16 @@ namespace ECommercePlatform.WebApi.Controllers
             }
 
         }
+
+        [HttpPost("login")]
+
+        public IActionResult Login(LoginRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }//TODO: ileride action filter olarak kodlanacak. 
+        }
+
     }
 }
