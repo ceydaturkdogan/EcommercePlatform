@@ -5,18 +5,19 @@ namespace ECommercePlatform.WebApi.Middlewares
     public class MaintenanceMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ISettingService _settingService;
 
-        public MaintenanceMiddleware(RequestDelegate next, ISettingService settingService)
+        public MaintenanceMiddleware(RequestDelegate next)
         {
             _next = next;
-            _settingService=settingService;
+
 
         }
         public async Task Invoke(HttpContext context)
         {
             var settingService = context.RequestServices.GetRequiredService<ISettingService>();
             bool maintenanceMode = settingService.GetMaintenanceState();
+
+
             if (context.Request.Path.StartsWithSegments("/api/auth/login") || context.Request.Path.StartsWithSegments("/api/settings"))
             {
                 await _next(context);

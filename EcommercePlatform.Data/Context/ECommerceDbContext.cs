@@ -26,7 +26,7 @@ namespace ECommercePlatform.Data.Context
                 new SettingEntity
                 {
                     Id = 1,
-                    MaintenenceMode = false
+                    MaintenanceMode = false
                 });
 
             base.OnModelCreating(modelBuilder);

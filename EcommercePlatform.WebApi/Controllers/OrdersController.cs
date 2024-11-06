@@ -1,5 +1,6 @@
 ﻿using ECommercePlatform.Business.Operations.Order;
 using ECommercePlatform.Business.Operations.Order.Dtos;
+using ECommercePlatform.WebApi.Filters;
 using ECommercePlatform.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -103,6 +104,8 @@ namespace ECommercePlatform.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles ="Admin")]
+        [TimeControlFilter]
         public async Task<IActionResult> UpdateOrder(int id, UpdateOrderRequest request)
         {
             var updateOrderDto = new UpdateOrderDto
