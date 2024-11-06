@@ -10,15 +10,18 @@ namespace ECommercePlatform.Data.Entities
 {
     public class OrderEntity:BaseEntity
     {
+        public string OrderName { get; set; }
         public DateTime OrderDate { get; set; }
 
         public decimal TotalAmount { get; set; }
 
-        public int UserId { get; set; }
+        
 
         //Relational Property
-        [ForeignKey(nameof(UserId))]
-        public UserEntity User { get; set; }
+
+
+
+        public ICollection<OrderProductEntity> OrderProduct { get; set; }
     }
 
     public class OrderConfiguration:BaseConfiguration<OrderEntity>

@@ -16,7 +16,7 @@ namespace ECommercePlatform.Data.Entities
         public int StockQuantity { get; set; }
 
         //Relational Property
-        public ICollection<OrderEntity> Order { get; set; }
+        public ICollection<OrderProductEntity> OrderProduct { get; set; }
     }
 
     public class ProductConfiguration : BaseConfiguration<ProductEntity>

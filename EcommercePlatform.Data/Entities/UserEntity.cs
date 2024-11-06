@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using ECommercePlatform.Data.Enums;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,6 +22,7 @@ namespace ECommercePlatform.Data.Entities
         public string Password { get; set; }
 
         public DateTime BirthDate { get; set; }
+        public UserType UserType { get; set; }
 
         public class UserConfiguration : BaseConfiguration<UserEntity>
         {

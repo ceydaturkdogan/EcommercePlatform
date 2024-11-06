@@ -42,28 +42,14 @@ namespace ECommercePlatform.Data.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("OrderProductEntityOrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderProductEntityProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProductEntityId")
-                        .HasColumnType("int");
+                    b.Property<string>("OrderName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductEntityId");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("OrderProductEntityOrderId", "OrderProductEntityProductId");
 
                     b.ToTable("Orders");
                 });
@@ -90,6 +76,8 @@ namespace ECommercePlatform.Data.Migrations
 
                     b.HasKey("OrderId", "ProductId");
 
+                    b.HasIndex("ProductId");
+
                     b.ToTable("OrderProducts");
                 });
 
@@ -110,12 +98,6 @@ namespace ECommercePlatform.Data.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("OrderProductEntityOrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderProductEntityProductId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -127,8 +109,6 @@ namespace ECommercePlatform.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderProductEntityOrderId", "OrderProductEntityProductId");
 
                     b.ToTable("Products");
                 });
@@ -169,47 +149,41 @@ namespace ECommercePlatform.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserType")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ECommercePlatform.Data.Entities.OrderEntity", b =>
+            modelBuilder.Entity("ECommercePlatform.Data.Entities.OrderProductEntity", b =>
                 {
-                    b.HasOne("ECommercePlatform.Data.Entities.ProductEntity", null)
-                        .WithMany("Order")
-                        .HasForeignKey("ProductEntityId");
-
-                    b.HasOne("ECommercePlatform.Data.Entities.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                    b.HasOne("ECommercePlatform.Data.Entities.OrderEntity", "Order")
+                        .WithMany("OrderProduct")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ECommercePlatform.Data.Entities.OrderProductEntity", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("OrderProductEntityOrderId", "OrderProductEntityProductId");
+                    b.HasOne("ECommercePlatform.Data.Entities.ProductEntity", "Product")
+                        .WithMany("OrderProduct")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ECommercePlatform.Data.Entities.ProductEntity", b =>
-                {
-                    b.HasOne("ECommercePlatform.Data.Entities.OrderProductEntity", null)
-                        .WithMany("Products")
-                        .HasForeignKey("OrderProductEntityOrderId", "OrderProductEntityProductId");
-                });
-
-            modelBuilder.Entity("ECommercePlatform.Data.Entities.OrderProductEntity", b =>
-                {
-                    b.Navigation("Orders");
-
-                    b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("ECommercePlatform.Data.Entities.ProductEntity", b =>
-                {
                     b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("ECommercePlatform.Data.Entities.OrderEntity", b =>
+                {
+                    b.Navigation("OrderProduct");
+                });
+
+            modelBuilder.Entity("ECommercePlatform.Data.Entities.ProductEntity", b =>
+                {
+                    b.Navigation("OrderProduct");
                 });
 #pragma warning restore 612, 618
         }

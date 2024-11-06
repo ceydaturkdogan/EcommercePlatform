@@ -12,5 +12,7 @@ namespace ECommercePlatform.Business.Operations.User
     {
         Task<ServiceMessage> AddUser(AddUserDto userDto);
 
+        ServiceMessage<UserInfoDto> LoginUser(LoginUserDto userDto);
+
     }
 }
