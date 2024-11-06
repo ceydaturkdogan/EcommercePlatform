@@ -11,7 +11,7 @@ namespace ECommercePlatform.Data.Repositories
         where TEntity : class
     {
         void Add(TEntity entity);
-        void Delete(TEntity entity);
+        void Delete(TEntity entity, bool softDelete=true);
 
         void Delete(int id);
 

@@ -18,5 +18,7 @@ namespace ECommercePlatform.Business.Operations.Order
 
         Task<ServiceMessage> AdjustTotalAmount(int id, decimal changeTo);
         Task<ServiceMessage> DeleteOrder(int id);
+        Task<ServiceMessage> UpdateOrder(UpdateOrderDto order);
+
     }
 }

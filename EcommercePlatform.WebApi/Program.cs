@@ -1,10 +1,12 @@
 using ECommercePlatform.Business.Data_Protection;
 using ECommercePlatform.Business.Operations.Order;
 using ECommercePlatform.Business.Operations.Product;
+using ECommercePlatform.Business.Operations.Setting;
 using ECommercePlatform.Business.Operations.User;
 using ECommercePlatform.Data.Context;
 using ECommercePlatform.Data.Repositories;
 using ECommercePlatform.Data.UnitOfWork;
+using ECommercePlatform.WebApi.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
@@ -75,6 +77,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserManager>();
 builder.Services.AddScoped<IOrderService, OrderManager>();
 builder.Services.AddScoped<IProductService, ProductManager>();
+builder.Services.AddScoped<ISettingService, SettingManager>();
 
 
 
@@ -86,6 +89,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//maintenancemode
+app.UseMaintenanceMode();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

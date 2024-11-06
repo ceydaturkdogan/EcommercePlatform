@@ -118,10 +118,35 @@ namespace ECommercePlatform.Business.Operations.Order
             };
         }
 
-        public Task<ServiceMessage> DeleteOrder(int id)
+        public async Task<ServiceMessage> DeleteOrder(int id)
         {
-            throw new NotImplementedException();
+            var order = _orderRepo.GetById(id);
+            if (order is null)
+            {
+                return new ServiceMessage
+                {
+                    IsSucceed = false,
+                    Message = "Silinmek istenen order bulunamadı"
+                };
+            }
+
+            _orderRepo.Delete(id);
+            try
+            {
+                await _unitOfWork.SaveChangesAsync();
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception("Delete işlemi esnasında bir hata oluştu");
+            }
+            return new ServiceMessage
+            {
+                IsSucceed = true,
+            };
+
         }
+
 
         public async Task<OrderDto> GetOrder(int id)
         {
@@ -165,5 +190,78 @@ namespace ECommercePlatform.Business.Operations.Order
             return orders;
         }
 
+        public async Task<ServiceMessage> UpdateOrder(UpdateOrderDto order)
+        {
+            var orderEntity = _orderRepo.GetById(order.Id);
+
+
+            if (orderEntity is null)
+            {
+                return new ServiceMessage
+                {
+                    IsSucceed = false,
+                    Message = "Sipariş bulunamadı"
+                };
+            }
+            await _unitOfWork.BeginTransactions();
+
+            orderEntity.OrderName = order.OrderName;
+            orderEntity.TotalAmount = order.TotalAmount;
+            orderEntity.OrderDate = order.OrderDate;
+
+            _orderRepo.Update(orderEntity);
+
+            try
+            {
+                await _unitOfWork.SaveChangesAsync();
+            }
+
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollBackTransaction();
+                throw new Exception("Güncelleme işlemi esnasında bir hata oluştu", ex);
+            }
+
+            var orderProducts = _orderProductRepo.GetAll(x => x.OrderId == order.Id).ToList();
+            foreach (var orderProduct in orderProducts)
+            {
+                _orderProductRepo.Delete(orderProduct, false);//hard delete
+
+            }
+            foreach (var productId in order.ProductIds)
+            {
+                var orderProduct = new OrderProductEntity
+                {
+                    OrderId = orderEntity.Id,
+                    ProductId = productId,
+                };
+
+                _orderProductRepo.Add(orderProduct);
+
+            }
+
+            try
+            {
+                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactions();
+            }
+
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollBackTransaction();
+
+                throw new Exception("Sipariş Bilgileri güncellenirken bir hata oluştu", ex);
+
+
+            }
+
+
+            return new ServiceMessage
+            {
+                IsSucceed = true,
+            };
+
+
+        }
     }
 }

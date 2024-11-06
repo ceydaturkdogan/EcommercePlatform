@@ -69,6 +69,7 @@ namespace ECommercePlatform.WebApi.Controllers
         }
 
         [HttpPatch("{id}/totalamount")]
+        [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult>  AdjustTotalAmount(int id,decimal changeTo)
         {
@@ -85,6 +86,7 @@ namespace ECommercePlatform.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
             var result= await _orderService.DeleteOrder(id);
@@ -96,6 +98,31 @@ namespace ECommercePlatform.WebApi.Controllers
             else
             {
                 return Ok();
+            }
+
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrder(int id, UpdateOrderRequest request)
+        {
+            var updateOrderDto = new UpdateOrderDto
+            {
+                Id = id,
+                TotalAmount = request.TotalAmount,
+                OrderName = request.OrderName,
+                OrderDate = request.OrderDate,
+                ProductIds = request.ProductIds,
+            };
+
+            var result =await _orderService.UpdateOrder(updateOrderDto);
+
+            if (!result.IsSucceed)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return  await GetOrder(id);
             }
 
         }

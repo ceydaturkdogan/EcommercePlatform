@@ -14,4 +14,8 @@
     <ProjectReference Include="..\EcommercePlatform.Data\ECommercePlatform.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Operations\Setting\Dto\" />
+  </ItemGroup>
+
 </Project>

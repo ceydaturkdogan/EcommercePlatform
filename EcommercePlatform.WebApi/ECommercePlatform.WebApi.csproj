@@ -19,4 +19,8 @@
     <ProjectReference Include="..\ECommercePlatform.Business\ECommercePlatform.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Filters\" />
+  </ItemGroup>
+
 </Project>

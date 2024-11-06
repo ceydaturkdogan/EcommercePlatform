@@ -21,6 +21,14 @@ namespace ECommercePlatform.Data.Context
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
 
+
+            modelBuilder.Entity<SettingEntity>().HasData(
+                new SettingEntity
+                {
+                    Id = 1,
+                    MaintenenceMode = false
+                });
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -28,6 +36,7 @@ namespace ECommercePlatform.Data.Context
         public DbSet<OrderEntity> Orders =>Set<OrderEntity>();
         public DbSet<OrderProductEntity> OrderProducts =>Set<OrderProductEntity>();
         public DbSet<ProductEntity> Products =>Set<ProductEntity>();
+        public DbSet<SettingEntity> Settings =>Set<SettingEntity>();
         
 
     }

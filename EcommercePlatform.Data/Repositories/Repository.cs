@@ -27,11 +27,18 @@ namespace ECommercePlatform.Data.Repositories
             //_entities.SaveChanges();
         }
 
-        public void Delete(TEntity entity)
+        public void Delete(TEntity entity, bool softDelete = true)
         {
-            entity.ModifiedDate = DateTime.Now;
-            entity.IsDeleted = true;
-            _entities.Update(entity);
+            if (softDelete)
+            {
+                entity.ModifiedDate = DateTime.Now;
+                entity.IsDeleted = true;
+                _entities.Update(entity);
+            }
+            else
+            {
+                _entities.Remove(entity);
+            }
             //_entities.SaveChanges();
         }
 
